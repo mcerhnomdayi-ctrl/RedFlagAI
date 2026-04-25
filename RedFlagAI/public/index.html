@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedFlag AI - Spot Bad Clients Before They Cost You Money</title>
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="ph ph-flag-banner text-gradient"></i>
+                <span class="font-bold">RedFlag <span class="text-gradient">AI</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#pricing">Pricing</a>
+            </div>
+            <a href="#demo" class="nav-cta">Analyze Message</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="demo">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="badge-pill"><span class="pulse-dot"></span> AI Guard Active</div>
+                <h1>Spot bad clients before they <span class="text-gradient">cost you money</span></h1>
+                <p>Identify red flags in client messages instantly. Avoid scams, unpaid work, and toxic clients before you say "yes".</p>
+                <div class="hero-trust">
+                    <span><i class="ph ph-shield-check"></i> Built for Freelancers</span>
+                    <span><i class="ph ph-lightning"></i> Instant Analysis</span>
+                </div>
+            </div>
+
+            <!-- The Core Application UI -->
+            <div class="hero-app glass-card">
+                <div class="app-header">
+                    <div class="app-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <h3>Input Client Message</h3>
+                    <button class="icon-btn" id="settings-trigger" aria-label="Settings"><i class="ph ph-gear"></i></button>
+                </div>
+                
+                <div class="input-section">
+                    <textarea id="client-message" placeholder="Hi! I have a huge project for you. It'll be great exposure. We need it done by tomorrow, but we can't pay much right now..."></textarea>
+                    
+                    <div class="action-row">
+                        <button id="try-example" class="secondary-btn btn-sm"><i class="ph ph-magic-wand"></i> Example Tool</button>
+                        <button id="analyze-btn" class="primary-btn w-full"><i class="ph ph-magnifying-glass"></i> Analyze Message</button>
+                    </div>
+                    <p class="text-center text-xs text-muted mt-2">No signup required to try.</p>
+                </div>
+
+                <div id="loading-state" class="loading-state hidden">
+                    <div class="spinner"></div>
+                    <p>AI is scanning for risks...</p>
+                </div>
+
+                <div id="results-section" class="results-section hidden">
+                    <div class="results-header">
+                        <h4>Analysis Complete</h4>
+                        <div id="risk-badge" class="badge risk-high">
+                            <i class="ph ph-warning-circle"></i> HIGH RISK
+                        </div>
+                    </div>
+
+                    <div class="metrics-grid">
+                        <div class="card red-flags-card">
+                            <h5><i class="ph ph-flag"></i> Detected Red Flags</h5>
+                            <ul id="red-flags-list"></ul>
+                        </div>
+                        <div class="card green-flags-card">
+                            <h5><i class="ph ph-check-circle"></i> Green Flags</h5>
+                            <ul id="green-flags-list"></ul>
+                        </div>
+                    </div>
+                    
+                    <div class="assessment-container">
+                        <div class="assessment-header">
+                            <h5><i class="ph ph-info"></i> Assessment Summary</h5>
+                            <div id="recommendation-badge" class="badge"></div>
+                        </div>
+                        <p id="explanation-text"></p>
+                    </div>
+
+                    <div class="reply-container">
+                        <div class="reply-header">
+                            <h5><i class="ph ph-paper-plane-tilt"></i> Suggested Reply</h5>
+                            <button id="copy-reply" class="icon-btn-sm" aria-label="Copy"><i class="ph ph-copy"></i> Copy</button>
+                        </div>
+                        <div id="suggested-reply" class="reply-box"></div>
+                    </div>
+
+                    <button id="reset-btn" class="secondary-btn w-full mt-4"><i class="ph ph-arrow-counter-clockwise"></i> Analyze Another Message</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Trust Section -->
+    <section class="trust-section">
+        <div class="container text-center">
+            <h2>Built for freelancers who are tired of bad clients.</h2>
+            <p>RedFlag AI gives you the confidence to say no to the wrong gigs.</p>
+            <div class="trust-tags">
+                <span class="trust-tag">Avoid Scams</span>
+                <span class="trust-tag">Spot Vague Projects</span>
+                <span class="trust-tag">Prevent Unpaid Work</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features bg-darker" id="features">
+        <div class="container">
+            <h2 class="section-title">Professional Risk Management</h2>
+            <div class="grid-3">
+                <div class="feature-card glass-card">
+                    <div class="feature-icon text-blue"><i class="ph ph-shield-warning"></i></div>
+                    <h3>Instant Risk Detection</h3>
+                    <p>Paste a client's brief or email and immediately see the overall risk level. Stop guessing if an opportunity is real or a trap.</p>
+                </div>
+                <div class="feature-card glass-card">
+                    <div class="feature-icon text-red"><i class="ph ph-flag"></i></div>
+                    <h3>Clear Red Flags</h3>
+                    <p>Our AI identifies hidden manipulation tactics, toxic behavior traits, and unpaid scope-creep risks layered in normal-sounding emails.</p>
+                </div>
+                <div class="feature-card glass-card">
+                    <div class="feature-icon text-green"><i class="ph ph-chat-centered-text"></i></div>
+                    <h3>Smart Client Replies</h3>
+                    <p>Unsure how to say no professionally? Generate confident, tactful replies that protect your boundaries without burning bridges.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="grid-3 steps-grid">
+                <div class="step text-center">
+                    <div class="step-num">1</div>
+                    <div class="step-icon glass-card"><i class="ph ph-clipboard-text"></i></div>
+                    <h3>Paste Message</h3>
+                    <p>Copy the text from Upwork, Fiverr, or your email inbox into our analyzer tool.</p>
+                </div>
+                <div class="step text-center">
+                    <div class="step-num">2</div>
+                    <div class="step-icon glass-card"><i class="ph ph-brain"></i></div>
+                    <h3>AI Scans for Risks</h3>
+                    <p>Our models instantly cross-reference the language against thousands of bad client interactions.</p>
+                </div>
+                <div class="step text-center">
+                    <div class="step-num">3</div>
+                    <div class="step-icon glass-card"><i class="ph ph-check-square-offset"></i></div>
+                    <h3>Make a Decision</h3>
+                    <p>Review the identified flags, read the recommendation, and use the suggested professional reply.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Clear Pricing</h2>
+            <div class="pricing-grid">
+                <div class="price-card glass-card">
+                    <h3>Free Demo</h3>
+                    <div class="price">$0<span>/mo</span></div>
+                    <p class="price-desc">Perfect for testing the waters.</p>
+                    <ul>
+                        <li><i class="ph ph-check text-blue"></i> Limited daily checks</li>
+                        <li><i class="ph ph-check text-blue"></i> Basic risk level assessment</li>
+                        <li><i class="ph ph-check text-blue"></i> Standard reply templates</li>
+                    </ul>
+                    <a href="#demo" class="secondary-btn w-full text-center">Analyze Message</a>
+                </div>
+                <div class="price-card glass-card pro-card border-gradient">
+                    <div class="popular-badge">Professional Level</div>
+                    <h3>Pro Freelancer</h3>
+                    <div class="price">$9<span>/mo</span></div>
+                    <p class="price-desc">Full suite to protect your business.</p>
+                    <ul>
+                        <li><i class="ph ph-check text-blue"></i> Unlimited analysis requests</li>
+                        <li><i class="ph ph-check text-blue"></i> Advanced psychological insights</li>
+                        <li><i class="ph ph-check text-blue"></i> Custom negotiation replies</li>
+                        <li><i class="ph ph-check text-blue"></i> Bring your own API Key</li>
+                    </ul>
+                    <button class="primary-btn w-full">Upgrade to Pro</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="container text-center">
+            <h2>Stop guessing. Know the risk.</h2>
+            <p>Your time is valuable. Stop wasting it on clients who don't respect it.</p>
+            <br>
+            <a href="#demo" class="primary-btn btn-lg">Analyze Message Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <div class="logo">
+                    <i class="ph ph-flag-banner text-gradient"></i>
+                    <span class="font-bold">RedFlag <span class="text-gradient">AI</span></span>
+                </div>
+                <p>Empowering global freelancers to work safely and effectively.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#pricing">Pricing</a>
+            </div>
+            <div class="footer-legal">
+                <div class="system-status"><span class="pulse-dot"></span> System Active</div>
+                <p class="text-xs text-muted mt-2">&copy; 2026 RedFlag AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3><i class="ph ph-gear"></i> System Settings</h3>
+                <button id="close-settings" class="icon-btn"><i class="ph ph-x"></i></button>
+            </div>
+            <div class="modal-body">
+                <label>Gemini API Key</label>
+                <input type="password" id="api-key" placeholder="AIzaSy..." class="form-control">
+                <p class="help-text">Enter your Gemini API key to unlock the actual AI analysis engine. Locally stored in your browser.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="save-settings" class="primary-btn w-full">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
