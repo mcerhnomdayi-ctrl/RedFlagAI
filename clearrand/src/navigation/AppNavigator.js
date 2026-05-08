@@ -22,10 +22,23 @@ function HomeTabs() {
     <HomeTopTab.Navigator
       screenOptions={{
         tabBarActiveTintColor: COLORS.white,
-        tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.7)',
-        tabBarStyle: { backgroundColor: COLORS.primary },
-        tabBarIndicatorStyle: { backgroundColor: COLORS.accent },
-        tabBarLabelStyle: { fontWeight: 'bold' },
+        tabBarInactiveTintColor: COLORS.textSecondary,
+        tabBarStyle: {
+          backgroundColor: COLORS.background,
+          borderBottomWidth: 1,
+          borderBottomColor: COLORS.border,
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+        tabBarIndicatorStyle: {
+          backgroundColor: COLORS.accent,
+          height: 2,
+        },
+        tabBarLabelStyle: {
+          fontWeight: 'bold',
+          fontSize: 12,
+          textTransform: 'none',
+        },
       }}
     >
       <HomeTopTab.Screen name="Overview" component={OverviewScreen} />
@@ -50,11 +63,22 @@ function MainTabs() {
           } else if (route.name === 'Settings') {
             iconName = focused ? 'settings' : 'settings-outline';
           }
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName} size={22} color={color} />;
         },
-        tabBarActiveTintColor: COLORS.primary,
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: COLORS.accent,
+        tabBarInactiveTintColor: COLORS.textSecondary,
+        tabBarStyle: {
+          backgroundColor: COLORS.background,
+          borderTopWidth: 1,
+          borderTopColor: COLORS.border,
+          paddingBottom: 8,
+          height: 60,
+        },
         headerShown: false,
+        tabBarLabelStyle: {
+          fontSize: 10,
+          fontWeight: '600',
+        }
       })}
     >
       <BottomTab.Screen name="Home" component={HomeTabs} />
@@ -67,16 +91,31 @@ function MainTabs() {
 
 export default function AppNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: { backgroundColor: COLORS.background }
+      }}
+    >
       <Stack.Screen name="Main" component={MainTabs} />
       <Stack.Screen
         name="AddTransaction"
         component={AddTransactionScreen}
         options={{
           headerShown: true,
-          title: 'Add Transaction',
-          headerStyle: { backgroundColor: COLORS.primary },
+          title: 'New Transaction',
+          headerStyle: {
+            backgroundColor: COLORS.background,
+            borderBottomWidth: 1,
+            borderBottomColor: COLORS.border,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
           headerTintColor: COLORS.white,
+          headerTitleStyle: {
+            fontWeight: '800',
+            fontSize: 16,
+          }
         }}
       />
     </Stack.Navigator>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { useAppContext } from '../context/AppContext';
 import { COLORS, SPACING } from '../constants/theme';
 
@@ -8,8 +8,8 @@ const StatsScreen = () => {
   const { transactions } = state;
 
   const currentYear = new Date().getFullYear();
-  const taxYearStart = new Date(currentYear, 2, 1); // March 1st
-  const taxYearEnd = new Date(currentYear + 1, 1, 28); // Feb 28th/29th
+  const taxYearStart = new Date(currentYear, 2, 1);
+  const taxYearEnd = new Date(currentYear + 1, 1, 28);
 
   const taxYearTransactions = transactions.filter(t => {
     const d = new Date(t.date);
@@ -29,34 +29,36 @@ const StatsScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Financial Stats</Text>
-        <Text style={styles.subtitle}>SA Tax Year: Mar {currentYear} - Feb {currentYear + 1}</Text>
-      </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Tax Year Report</Text>
+          <Text style={styles.subtitle}>Mar {currentYear} - Feb {currentYear + 1}</Text>
+        </View>
 
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Tax Year Summary</Text>
-        <View style={styles.row}>
-          <Text style={styles.label}>Total Income</Text>
-          <Text style={[styles.value, { color: COLORS.accent }]}>{formatZAR(totalTaxYearIncome)}</Text>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Summary</Text>
+          <View style={styles.row}>
+            <Text style={styles.label}>Total Income</Text>
+            <Text style={[styles.value, { color: COLORS.positive }]}>{formatZAR(totalTaxYearIncome)}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.label}>Total Expenses</Text>
+            <Text style={[styles.value, { color: COLORS.negative }]}>{formatZAR(totalTaxYearSpend)}</Text>
+          </View>
+          <View style={[styles.row, styles.totalRow]}>
+            <Text style={styles.totalLabel}>Surplus</Text>
+            <Text style={styles.totalValue}>{formatZAR(totalTaxYearIncome - totalTaxYearSpend)}</Text>
+          </View>
         </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>Total Expenses</Text>
-          <Text style={[styles.value, { color: COLORS.danger }]}>{formatZAR(totalTaxYearSpend)}</Text>
-        </View>
-        <View style={[styles.row, styles.totalRow]}>
-          <Text style={styles.totalLabel}>Net Surplus</Text>
-          <Text style={styles.totalValue}>{formatZAR(totalTaxYearIncome - totalTaxYearSpend)}</Text>
-        </View>
-      </View>
 
-      <View style={styles.infoBox}>
-        <Text style={styles.infoText}>
-          Tip: In South Africa, you can deduct up to 27.5% of your taxable income (capped at R350,000) for retirement fund contributions.
-        </Text>
-      </View>
-    </ScrollView>
+        <View style={styles.infoBox}>
+          <Text style={styles.infoText}>
+            Tip: In South Africa, you can deduct up to 27.5% of your taxable income (capped at R350,000) for retirement fund contributions.
+          </Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -65,33 +67,37 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
   },
+  scrollContent: {
+    paddingBottom: SPACING.xl,
+  },
   header: {
     padding: SPACING.lg,
-    backgroundColor: COLORS.primary,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '800',
     color: COLORS.white,
   },
   subtitle: {
     fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: COLORS.textSecondary,
     marginTop: 4,
   },
   card: {
-    backgroundColor: COLORS.white,
-    margin: SPACING.lg,
+    backgroundColor: COLORS.secondary,
+    marginHorizontal: SPACING.lg,
     padding: SPACING.lg,
-    borderRadius: 8,
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: COLORS.lightGray,
+    borderColor: COLORS.border,
   },
   cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '700',
     marginBottom: SPACING.md,
-    color: COLORS.primary,
+    color: COLORS.white,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
   },
   row: {
     flexDirection: 'row',
@@ -99,39 +105,41 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.sm,
   },
   label: {
-    fontSize: 16,
-    color: 'gray',
+    fontSize: 15,
+    color: COLORS.textSecondary,
   },
   value: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 15,
+    fontWeight: '700',
   },
   totalRow: {
     marginTop: SPACING.md,
     borderTopWidth: 1,
-    borderTopColor: COLORS.lightGray,
+    borderTopColor: COLORS.border,
     paddingTop: SPACING.md,
   },
   totalLabel: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '700',
+    color: COLORS.white,
   },
   totalValue: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: COLORS.primary,
+    fontSize: 16,
+    fontWeight: '800',
+    color: COLORS.accent,
   },
   infoBox: {
-    backgroundColor: '#E3F2FD',
-    marginHorizontal: SPACING.lg,
-    padding: SPACING.md,
-    borderRadius: 8,
-    borderLeftWidth: 4,
-    borderLeftColor: COLORS.primary,
+    backgroundColor: 'rgba(94, 106, 210, 0.1)',
+    margin: SPACING.lg,
+    padding: SPACING.lg,
+    borderRadius: 12,
+    borderLeftWidth: 3,
+    borderLeftColor: COLORS.accent,
   },
   infoText: {
-    fontSize: 14,
-    color: COLORS.primary,
+    fontSize: 13,
+    color: COLORS.text,
+    lineHeight: 20,
     fontStyle: 'italic',
   },
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Switch, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Switch, ScrollView, Alert, SafeAreaView } from 'react-native';
 import { useAppContext } from '../context/AppContext';
 import { COLORS, SPACING } from '../constants/theme';
 import { Ionicons } from '@expo/vector-icons';
@@ -34,59 +34,63 @@ const SettingsScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Settings</Text>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>General</Text>
-        <View style={styles.settingRow}>
-          <Text style={styles.settingLabel}>Currency</Text>
-          <Text style={styles.settingValue}>{settings.currency} (Locked)</Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View style={styles.header}>
+          <Text style={styles.title}>Settings</Text>
         </View>
-        <View style={styles.settingRow}>
-          <Text style={styles.settingLabel}>Budget Reset Day</Text>
-          <Text style={styles.settingValue}>{settings.budgetResetDay}st of month</Text>
-        </View>
-        <View style={styles.settingRow}>
-          <Text style={styles.settingLabel}>Dark Mode</Text>
-          <Switch
-            value={settings.darkMode}
-            onValueChange={() => dispatch({ type: 'TOGGLE_DARK_MODE' })}
-            trackColor={{ false: COLORS.lightGray, true: COLORS.primary }}
-          />
-        </View>
-      </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Data</Text>
-        <TouchableOpacity style={styles.settingRow} onPress={handleExport}>
-          <Text style={styles.settingLabel}>Export data as CSV</Text>
-          <Ionicons name="download-outline" size={20} color={COLORS.primary} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.settingRow} onPress={handleReset}>
-          <Text style={[styles.settingLabel, { color: COLORS.danger }]}>Reset all data</Text>
-          <Ionicons name="trash-outline" size={20} color={COLORS.danger} />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>About</Text>
-        <View style={styles.settingRow}>
-          <Text style={styles.settingLabel}>App Version</Text>
-          <Text style={styles.settingValue}>1.0.0</Text>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>General</Text>
+          <View style={styles.settingRow}>
+            <Text style={styles.settingLabel}>Currency</Text>
+            <Text style={styles.settingValue}>ZAR</Text>
+          </View>
+          <View style={styles.settingRow}>
+            <Text style={styles.settingLabel}>Reset Day</Text>
+            <Text style={styles.settingValue}>1st</Text>
+          </View>
+          <View style={styles.settingRow}>
+            <Text style={styles.settingLabel}>Dark Mode</Text>
+            <Switch
+              value={settings.darkMode}
+              onValueChange={() => dispatch({ type: 'TOGGLE_DARK_MODE' })}
+              trackColor={{ false: '#333', true: COLORS.accent }}
+              thumbColor={COLORS.white}
+            />
+          </View>
         </View>
-        <TouchableOpacity style={styles.settingRow}>
-          <Text style={styles.settingLabel}>Privacy Policy</Text>
-          <Ionicons name="chevron-forward" size={20} color="gray" />
-        </TouchableOpacity>
-      </View>
 
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>ClearRand — Privacy First</Text>
-      </View>
-    </ScrollView>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Data Management</Text>
+          <TouchableOpacity style={styles.settingRow} onPress={handleExport}>
+            <Text style={styles.settingLabel}>Export to CSV</Text>
+            <Ionicons name="download-outline" size={18} color={COLORS.textSecondary} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.settingRow} onPress={handleReset}>
+            <Text style={[styles.settingLabel, { color: COLORS.negative }]}>Reset system</Text>
+            <Ionicons name="trash-outline" size={18} color={COLORS.negative} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>System</Text>
+          <View style={styles.settingRow}>
+            <Text style={styles.settingLabel}>Version</Text>
+            <Text style={styles.settingValue}>2.0.0</Text>
+          </View>
+          <TouchableOpacity style={styles.settingRow}>
+            <Text style={styles.settingLabel}>Privacy Policy</Text>
+            <Ionicons name="chevron-forward" size={18} color={COLORS.textSecondary} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>CLEARRAND PRO V2</Text>
+          <Text style={styles.footerSub}>Privacy by design. Design for privacy.</Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -97,30 +101,23 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: SPACING.lg,
-    backgroundColor: COLORS.white,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.lightGray,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: COLORS.primary,
+    fontWeight: '800',
+    color: COLORS.white,
   },
   section: {
-    marginTop: SPACING.lg,
-    backgroundColor: COLORS.white,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: COLORS.lightGray,
+    marginBottom: SPACING.xl,
   },
   sectionTitle: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: 'bold',
-    color: 'gray',
+    color: COLORS.textSecondary,
     marginLeft: SPACING.lg,
-    marginTop: SPACING.md,
-    marginBottom: SPACING.xs,
+    marginBottom: SPACING.sm,
     textTransform: 'uppercase',
+    letterSpacing: 1.5,
   },
   settingRow: {
     flexDirection: 'row',
@@ -128,24 +125,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: SPACING.md,
     paddingHorizontal: SPACING.lg,
+    backgroundColor: COLORS.secondary,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.lightGray,
+    borderBottomColor: COLORS.border,
   },
   settingLabel: {
-    fontSize: 16,
+    fontSize: 15,
     color: COLORS.text,
+    fontWeight: '500',
   },
   settingValue: {
-    fontSize: 16,
-    color: 'gray',
+    fontSize: 15,
+    color: COLORS.textSecondary,
   },
   footer: {
     padding: SPACING.xl,
     alignItems: 'center',
   },
   footerText: {
-    color: 'gray',
+    color: COLORS.textSecondary,
+    fontSize: 10,
+    fontWeight: 'bold',
+    letterSpacing: 2,
+  },
+  footerSub: {
+    color: COLORS.textSecondary,
     fontSize: 12,
+    marginTop: 4,
+    opacity: 0.6,
   },
 });
 

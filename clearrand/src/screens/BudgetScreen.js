@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useAppContext } from '../context/AppContext';
 import { COLORS, SPACING } from '../constants/theme';
 import { APP_LIMITS } from '../constants/initialData';
@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import PaywallModal from '../components/PaywallModal';
 
 const BudgetScreen = () => {
-  const { state } = useAppContext();
+  const { state, dispatch } = useAppContext();
   const { budgets, settings } = state;
   const [paywallVisible, setPaywallVisible] = React.useState(false);
 
@@ -17,10 +17,9 @@ const BudgetScreen = () => {
 
   const getProgressColor = (spent, budget) => {
     const ratio = spent / budget;
-    if (ratio > 1) return COLORS.danger;
+    if (ratio > 1) return COLORS.negative;
     if (ratio > 0.8) return COLORS.amber;
-    if (ratio < 0.6) return COLORS.accent;
-    return COLORS.primary;
+    return COLORS.accent;
   };
 
   const renderBudgetCategory = ({ item }) => {
@@ -43,6 +42,7 @@ const BudgetScreen = () => {
             ]}
           />
         </View>
+        <Text style={styles.percentageText}>{Math.round(ratio * 100)}% utilized</Text>
       </View>
     );
   };
@@ -57,13 +57,13 @@ const BudgetScreen = () => {
       name: 'New Category',
       budgetCents: 100000,
       spentCents: 0,
-      color: COLORS.primary,
+      color: COLORS.accent,
     };
     dispatch({ type: 'ADD_BUDGET', payload: newCat });
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={budgets}
         keyExtractor={item => item.id}
@@ -71,8 +71,8 @@ const BudgetScreen = () => {
         contentContainerStyle={styles.listContent}
         ListFooterComponent={
           <TouchableOpacity style={styles.addButton} onPress={handleAddCategory}>
-            <Ionicons name="add" size={24} color={COLORS.primary} />
-            <Text style={styles.addButtonText}>Add category</Text>
+            <Ionicons name="add" size={20} color={COLORS.white} />
+            <Text style={styles.addButtonText}>Create category</Text>
           </TouchableOpacity>
         }
       />
@@ -81,7 +81,7 @@ const BudgetScreen = () => {
         onClose={() => setPaywallVisible(false)}
         reason={`Free tier is limited to ${APP_LIMITS.FREE_CATEGORIES} budget categories.`}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -94,50 +94,56 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
   },
   card: {
-    backgroundColor: COLORS.white,
-    padding: SPACING.md,
-    borderRadius: 8,
+    backgroundColor: COLORS.secondary,
+    padding: SPACING.lg,
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: COLORS.lightGray,
+    borderColor: COLORS.border,
     marginBottom: SPACING.md,
   },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: SPACING.sm,
+    marginBottom: SPACING.md,
   },
   categoryName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: COLORS.primary,
+    color: COLORS.white,
   },
   budgetAmount: {
-    fontSize: 14,
-    color: 'gray',
+    fontSize: 13,
+    color: COLORS.textSecondary,
   },
   progressContainer: {
-    height: 12,
-    backgroundColor: COLORS.lightGray,
-    borderRadius: 6,
+    height: 6,
+    backgroundColor: COLORS.border,
+    borderRadius: 3,
     overflow: 'hidden',
   },
   progressBar: {
     height: '100%',
   },
+  percentageText: {
+    fontSize: 12,
+    color: COLORS.textSecondary,
+    marginTop: SPACING.sm,
+    fontWeight: '600',
+  },
   addButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: SPACING.md,
+    padding: SPACING.lg,
+    backgroundColor: COLORS.secondary,
+    borderRadius: 12,
     borderWidth: 1,
-    borderStyle: 'dashed',
-    borderColor: COLORS.primary,
-    borderRadius: 8,
+    borderColor: COLORS.border,
     marginTop: SPACING.sm,
   },
   addButtonText: {
-    color: COLORS.primary,
+    color: COLORS.white,
     fontWeight: 'bold',
     marginLeft: SPACING.sm,
   },

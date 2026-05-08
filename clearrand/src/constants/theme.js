@@ -1,14 +1,17 @@
 export const COLORS = {
-  primary: '#0C447C', // Deep navy blue
-  accent: '#1D9E75',  // Teal for positive values
-  danger: '#A32D2D',  // Red for overspend or losses
-  background: '#F9F6F1', // Off-white
+  primary: '#000000', // True black
+  secondary: '#1A1A1A', // Dark gray for surfaces
+  accent: '#5E6AD2',  // Linear blue/purple
+  positive: '#4CAF50', // Success Green
+  negative: '#FF5252', // Error Red
+  background: '#000000',
   white: '#FFFFFF',
-  black: '#000000',
-  gray: '#CCCCCC',
-  lightGray: '#E0E0E0',
+  text: '#E0E0E0',
+  textSecondary: '#A0A0A0',
+  border: '#333333',
+  card: '#111111',
   amber: '#FFBF00',
-  text: '#333333',
+  danger: '#FF5252',
 };
 
 export const SPACING = {
@@ -21,5 +24,5 @@ export const SPACING = {
 
 export const FONTS = {
   regular: 'System',
-  bold: 'System', // Bold is handled by fontWeight in React Native
+  bold: 'System',
 };
