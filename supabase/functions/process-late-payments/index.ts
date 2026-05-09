@@ -9,9 +9,7 @@ serve(async (req) => {
   try {
     const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
 
-    // 1. Find unpaid payments where due_date has passed and status is not already 'late' or 'missed'
-    // The trigger handles status, but we want to proactively mark unpaid overdue as 'late'
-    // and notify the landlord.
+    // 1. Find unpaid payments where due_date has passed
     const { data: latePayments, error: fetchError } = await supabase
       .from("payments")
       .select(`
@@ -37,19 +35,13 @@ serve(async (req) => {
     const results = [];
 
     for (const payment of latePayments || []) {
-      // 2. Mark as 'late' (if trigger didn't already or to be explicit)
+      // 2. Mark as 'late'
       await supabase
         .from("payments")
         .update({ status: "late" })
         .eq("id", payment.id);
 
-      // 3. Get landlord email (using auth.users is tricky from edge function without extra steps,
-      // but we can assume we might have it or need to fetch it. For now, we'll try to find
-      // the landlord's email from a profile table if it existed, but since it doesn't
-      // in the schema provided, we'll use a placeholder or assume the tenant's email
-      // is for notification? No, the requirement says "send a Resend email to the landlord".)
-
-      // Since we don't have a 'profiles' table with emails, we'll fetch from auth.admin
+      // 3. Get landlord email
       const { data: userData, error: userError } = await supabase.auth.admin.getUserById(payment.properties.user_id);
 
       if (!userError && userData?.user?.email) {
